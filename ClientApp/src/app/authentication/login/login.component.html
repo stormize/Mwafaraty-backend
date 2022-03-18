@@ -1,0 +1,70 @@
+<!-- 
+<section class="login-wrap mtb-40">
+    <div class="container">
+        <div class="row justify-content-center" *ngIf="!error.errorTitle">
+          <div class="col-md-6">
+              <div class="login-box">
+                  <h1>Administrator Login</h1>
+                  <div class="alert alert-danger" *ngIf="loginError">
+                     {{loginError}}
+                  </div>
+                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                      <div class="form-group">
+                          <input type="text" formControlName="phoneNumber" class="form-control" placeholder="phoneNumber" required>
+                          <div *ngIf="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)" class="error">
+                            <div *ngIf="phoneNumber?.errors">
+                              phoneNumber is required.
+                            </div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <input type="password" formControlName="password" class="form-control" placeholder="Password" required>
+                          <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="error">
+                            <div *ngIf="password?.errors">
+                              Password is required.
+                            </div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Log In</button>
+                      </div>
+                  </form>
+              </div>         
+          </div>
+        </div>
+        <div class="service-error" *ngIf="error?.errorTitle">
+          <h1>{{error.errorTitle}}</h1>
+          <h3>{{error.errorDesc}}</h3>
+       </div>
+    </div>
+  </section> -->
+  <div class="alert alert-danger" *ngIf="loginError">
+    {{loginError}}
+ </div>
+   <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="form__input" appearance="outline">
+      <input matInput placeholder="Phone Number" type="phoneNumber" formControlName="phoneNumber">
+      <mat-error *ngIf="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched) && phoneNumber?.errors" class="error">
+        phoneNumber is required.
+    </mat-error>
+    </mat-form-field>
+    
+
+    <mat-form-field class="form__input" appearance="outline">
+      <input matInput placeholder="Password" type="password" formControlName="password">
+      <mat-error *ngIf="password?.invalid && (password?.dirty || password?.touched) && password?.errors" class="error">
+          Password is required.
+      </mat-error>
+    </mat-form-field>
+   
+    <div class="form-actions">
+      <button class="form-actions__login" mat-raised-button color="primary" type="submit"  [disabled]="!loginForm.valid" class="btn btn-primary">Login</button>
+      <button class="form-actions__forget" mat-button>Forget password</button>
+    </div>
+    <div class="service-error" *ngIf="error?.errorTitle">
+      <h1>{{error.errorTitle}}</h1>
+      <h3>{{error.errorDesc}}</h3>
+   </div>
+  </form>
+ 
+  
