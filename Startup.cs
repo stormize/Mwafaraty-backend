@@ -18,6 +18,10 @@ using Mwafaraty.JwtFeature;
 using Newtonsoft.Json;
 using Mwafaraty.ViewModels.Email;
 using Mwafaraty.common;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using MailKit;
+using Microsoft.IdentityModel.Logging;
 
 namespace Mwafaraty
 {
@@ -64,12 +68,15 @@ namespace Mwafaraty
             });
             services.AddDbContext<MwafaratyContext>(opt =>
             opt.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
-          
-         
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+
+
+
             services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "NFC Demo Ci2", Version = "v1" }));
             services.AddSpaStaticFiles(configuration => configuration.RootPath = $"ClientApp/dist/sb-admin-angular");
-
+            services.AddControllers(x => x.AllowEmptyInputInBodyModelBinding = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,8 +91,6 @@ namespace Mwafaraty
             builder.RegisterInstance<EmailConfigurationVm>(emailConfig);
             builder.RegisterInstance(Configuration);
             
-
-
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -102,6 +107,11 @@ namespace Mwafaraty
           
             else
             {
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
+                });
+               
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -143,7 +153,6 @@ namespace Mwafaraty
                 }
             });
 
-           
 
         }
     }

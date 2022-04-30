@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mwafaraty.Business.Managers.Account;
+using Mwafaraty.Business.Managers.IManagers;
 using Mwafaraty.ViewModels.Account;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,11 @@ using System.Threading.Tasks;
 
 namespace Mwafaraty.Controllers.Common
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AccountController : ControllerBase
+    
+    public class AccountController : BaseController
     {
-        private readonly AccountManager _accountManager;
-        public AccountController(AccountManager accountManager)
+         IAccountManager _accountManager;
+        public AccountController(IAccountManager accountManager)
         {
             _accountManager = accountManager;
         }
@@ -68,6 +68,12 @@ namespace Mwafaraty.Controllers.Common
         {
             return Ok();
         }
-
+        [HttpPost("addCurrentCityToUser")]
+        [Authorize]
+        public async Task<IActionResult> AddCurrentCityToUser(int cityId)
+        {
+            await _accountManager.AddCurrentCityToUser(cityId);
+            return Ok();
+        }
     }
 }

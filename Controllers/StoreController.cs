@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mwafaraty.Business.Managers.IManagers;
+using Mwafaraty.Controllers.Common;
 using Mwafaraty.ViewModels.Store;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,8 @@ using System.Threading.Tasks;
 
 namespace Mwafaraty.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StoreController : ControllerBase
+  
+    public class StoreController : BaseController
     {
         private IStoreManager _storeManager;
         public StoreController(IStoreManager storeManager)

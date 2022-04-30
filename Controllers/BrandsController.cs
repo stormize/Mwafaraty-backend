@@ -10,23 +10,21 @@ using System.Threading.Tasks;
 
 namespace Mwafaraty.Controllers
 {
-    
     [Authorize]
-    public class VendorController : BaseController
+    public class BrandController : BaseController
     {
-        IVendorManager _vendorManager;
-
-        public VendorController(IVendorManager vendorManager)
+        IBrandManager _brandManager;
+        public BrandController(IBrandManager brandManager)
         {
-            _vendorManager = vendorManager;
+            _brandManager = brandManager;
         }
         [HttpPost("filter")]
 
-        public async Task<IActionResult> Filter()
+        public async Task<IActionResult> Filter([FromBody] int? categoryId)
         {
-           var body = await _vendorManager.Filter(Language);
-            var response = BuildResponse(body);
-            return Ok(response);
+            var body = await _brandManager.Filter(categoryId, Language);
+            var res = BuildResponse(body);
+            return Ok(res);
         }
     }
 }

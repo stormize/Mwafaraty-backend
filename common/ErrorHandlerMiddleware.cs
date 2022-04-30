@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Mwafaraty.Business.Common.Exceptions;
+using Mwafaraty.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,12 @@ namespace Mwafaraty.common
                 {
                     // custom application error
                     response.StatusCode = (int)HttpStatusCode.OK;
+                    ResponseVm<BaseVm> res = new ResponseVm<BaseVm>();
+                    res.BuildErrorResponse(error.Message);
+                    JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+                    jsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    await response.WriteAsync(JsonSerializer.Serialize(res, jsonSerializerOptions));
+                    return;
                 }
 
 

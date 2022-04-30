@@ -245,6 +245,7 @@ GO
 CREATE TABLE [dbo].[Brand](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](100) NOT NULL,
+	[NameEn] [nvarchar](100) NOT NULL,
 	[FkCategoryId] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -272,8 +273,136 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 -----------------------------------------------------------------------------------
-create table Media(
-[Id] [int] IDENTITY(1,1) NOT NULL,
-[Name] [nvarchar](100) NOT NULL,
-[FilePath] [nvarchar](300) NOT NULL,
+CREATE TABLE [dbo].[Media](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[FilePath] [nvarchar](300) NOT NULL,
+ CONSTRAINT [PK_Media] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+--------------------------------------------------------------------------------------
+CREATE TABLE Product (
+Id int IDENTITY(1,1) NOT NULL,
+[Name] nvarchar(100) NOT NULL,
+[Description] nvarchar(300) NOT NULL,
+Stock int NOT NULL,
+Price Decimal  NOT NULL,
+FkColorId int NOT NULL,
+FkStoreId int NOT NULL,
+FkMediaId int NULL,
+CreatedOn Datetime NOT NULL,
 )
+--------------------------------------------------------------------------------------
+CREATE TABLE Color(
+Id int IDENTITY(1,1) NOT NULL,
+[Name] nvarchar(100) NOT NULL
+)
+--------------------------------------------------------------------------------------
+CREATE TABLE Review(
+Id int IDENTITY(1,1) NOT NULL,
+[Text] nvarchar(300) NOT NULL,
+Rate int NOT NULL,
+CreatedOn Datetime NOT NULL,
+)
+--------------------------------------------------------------------------------------
+CREATE TABLE ReviewProduct(
+Id int IDENTITY(1,1) NOT NULL,
+FKProductId int NOT NULL,
+FKReviewId int Not Null,
+FKUserId nvarchar(450) NOT NULL,
+)
+--------------------------------------------------------------------------------------
+CREATE TABLE [dbo].[Vendor](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[Rating] [float] NOT NULL,
+	[Description] [nvarchar](500) NOT NULL,
+	[logo] [nvarchar](100) NOT NULL,
+	[slogan] [nvarchar](100) NULL,
+	[FkMediaId] [int] NULL,
+	[NameEn] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_Vendor] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Vendor] ADD  DEFAULT ((0)) FOR [Rating]
+GO
+
+ALTER TABLE [dbo].[Vendor]  WITH CHECK ADD  CONSTRAINT [FK_Vendor_Media] FOREIGN KEY([FkMediaId])
+REFERENCES [dbo].[Media] ([Id])
+GO
+
+ALTER TABLE [dbo].[Vendor] CHECK CONSTRAINT [FK_Vendor_Media]
+GO
+
+----------------------------------------------------------------------------
+CREATE TABLE [dbo].[Store](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[NameEn] [nvarchar](100) NOT NULL,
+	[CreatedOn] [datetime] NOT NULL,
+	[FkStatusId] [int] NOT NULL,
+	[FKVendorId] [int] NOT NULL,
+	[FKAddressId] [int] NOT NULL,
+
+ CONSTRAINT [PK_Store] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Store]  WITH CHECK ADD  CONSTRAINT [FK_Store_Status] FOREIGN KEY([FkStatusId])
+REFERENCES [dbo].[Status] ([Id])
+GO
+
+ALTER TABLE [dbo].[Store] CHECK CONSTRAINT [FK_Store_Status]
+GO
+
+ALTER TABLE [dbo].[Store]  WITH CHECK ADD  CONSTRAINT [FK_Store_Vendor] FOREIGN KEY([FKVendorId])
+REFERENCES [dbo].[Vendor] ([Id])
+GO
+
+ALTER TABLE [dbo].[Store] CHECK CONSTRAINT [FK_Store_Vendor]
+GO
+-----------------------------------------------------------------------------
+CREATE TABLE [dbo].[Cart](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FkUserId] [nvarchar](450) NOT NULL,
+	[FkProductId] [int] NOT NULL,
+	[Quantity] [int] NOT NULL,
+ CONSTRAINT [PK_Cart] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Cart]  WITH CHECK ADD  CONSTRAINT [FK_Cart_product] FOREIGN KEY([FkProductId])
+REFERENCES [dbo].[Product] ([Id])
+GO
+
+ALTER TABLE [dbo].[Cart] CHECK CONSTRAINT [FK_Cart_product]
+GO
+
+ALTER TABLE [dbo].[Cart]  WITH CHECK ADD  CONSTRAINT [FK_Cart_User] FOREIGN KEY([FkUserId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+GO
+
+ALTER TABLE [dbo].[Cart] CHECK CONSTRAINT [FK_Cart_User]
+GO
+
+
+CREATE TABLE ProductCategory(
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FkProductId] [int] NOT NULL,
+	[FkCategoryId] [int] NOT NULL,
+
+);

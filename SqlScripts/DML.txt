@@ -1,1 +1,69 @@
-﻿
+﻿USE [Mwafaraty]
+GO
+
+INSERT INTO [dbo].[AspNetRoles]
+           (
+		   [Id]
+            ,[Name]
+           ,[NormalizedName]
+           )
+     VALUES
+           (
+		   '711b7252-9e74-4366-a1a5-8718e3f6556a'
+           ,'User'
+           ,'User'
+          )
+GO
+
+
+USE [Mwafaraty]
+GO
+
+INSERT INTO [dbo].[AspNetRoles]
+           (
+		   [Id]
+            ,[Name]
+           ,[NormalizedName]
+           )
+     VALUES
+           (
+		   'ca5f0c9d-b72b-488a-b65e-4df7208aa64b'
+           ,'SuperAdmin'
+           ,'SuperAdmin'
+          )
+GO
+
+USE [Mwafaraty]
+GO
+
+INSERT INTO [dbo].[AspNetRoles]
+           (
+		   [Id]
+            ,[Name]
+           ,[NormalizedName]
+           )
+     VALUES
+           (
+		   'b8ec2d14-05b3-4481-b492-9aee9bf20304'
+           ,'Admin'
+           ,'Admin'
+          )
+GO
+
+
+USE [Mwafaraty]
+GO
+
+INSERT INTO [dbo].[AspNetRoles]
+           (
+		   [Id]
+            ,[Name]
+           ,[NormalizedName]
+           )
+     VALUES
+           (
+		   'a305c224-fd5d-494d-957a-e2b3ff0522ba'
+           ,'LinkedUser'
+           ,'LinkedUser'
+          )
+GO
