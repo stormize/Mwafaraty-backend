@@ -22,8 +22,8 @@ namespace Mwafaraty.Controllers
 
         public async Task<IActionResult> GetProductById([FromBody]int productId)
         {
-            await _productManager.GetProductById(productId, Language);
-            return Ok();
+           var res = await _productManager.GetProductById(productId, Language);
+            return Ok(res);
         }
 
         [HttpPost("filter")]

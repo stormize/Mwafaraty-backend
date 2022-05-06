@@ -20,12 +20,14 @@ namespace Mwafaraty.Controllers.Common
             _accountManager = accountManager;
         }
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequestVm loginRequestVm)
         {
            var response =  await _accountManager.Login(loginRequestVm);
             return Ok(response);
         }
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterRequestVm registerRequestVm)
         {
             if (registerRequestVm == null || !ModelState.IsValid)
@@ -34,6 +36,30 @@ namespace Mwafaraty.Controllers.Common
 
            
             
+            return Ok(response);
+        }
+        [HttpPost("registerAdmin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterAdmin(RegisterRequestVm registerRequestVm)
+        {
+            if (registerRequestVm == null || !ModelState.IsValid)
+                return BadRequest();
+            var response = await _accountManager.RegisterAdmin(registerRequestVm);
+
+
+
+            return Ok(response);
+        }
+        [HttpPost("RegisterSuperAdmin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterSuperAdmin(RegisterRequestVm registerRequestVm)
+        {
+            if (registerRequestVm == null || !ModelState.IsValid)
+                return BadRequest();
+            var response = await _accountManager.RegisterSuperAdmin(registerRequestVm);
+
+
+
             return Ok(response);
         }
         [HttpPost("registerStoreAdmin")]
@@ -49,7 +75,8 @@ namespace Mwafaraty.Controllers.Common
             return Ok(response);
         }
         [HttpPost("forgotPassword")]
-        
+        [AllowAnonymous]
+
         public async Task<IActionResult> ForgotPassword(ForgotPasswordRequestVm forgotPasswordRequestVm)
         {
             var response = await _accountManager.ForgotPassword(forgotPasswordRequestVm);

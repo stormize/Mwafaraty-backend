@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Mwafaraty.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Mwafaraty.Controllers.Common
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BaseController : ControllerBase
     {
         protected string Language { get {
